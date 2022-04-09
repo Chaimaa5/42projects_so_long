@@ -14,29 +14,26 @@ NAME = so_long
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = so_long.c map.c inc/gnl/get_next_line.c inc/gnl/get_next_line_utils.c 
-LIB = libft.a
+INC = -lmlx -framework OpenGL -framework AppKit
 
-OBJS = $(SRCS:.c=.o)
+LIBFT_A = libft.a
+LIBF_DIR = inc/libft/
+LIBFT  = $(addprefix $(LIBF_DIR), $(LIBFT_A))
 
-%.o : %.c
-	   $(CC) $(CFLAGS) $< -c
-$(NAME) : $(SRCS) $(LIB)
-		$(CC) $(CFLAGS) $(SRCS) -o ${NAME} $(LIB)
-$(LIB):
-	make -C inc/libft
-	cp inc/libft/libft.a ./
+OBJ = $(SRCS:.c=.o)
 
-
-
+%.o: %.c
+	$(CC)  $(CFLAGS)  -Imlx -c $< -o $@
+$(NAME): $(OBJ)
+	make -C $(LIBF_DIR)
+	cp inc/libft/libft.a .
+	$(CC) $(FLAGS) $(OBJ) $(LIBFT) $(INC) -o $(NAME)
 
 all : $(NAME) 
 
 clean :
-	rm -f ${OBJS}
-	rm -f /inc/libft/*.o
+	rm -f ${OBJ}
 fclean : clean
 	rm -f so_long
-	rm -f libft.a
-	rm -f inc/libft/libft.a 
 
 re : fclean all
