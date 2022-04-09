@@ -35,5 +35,6 @@ clean :
 	rm -f ${OBJ}
 fclean : clean
 	rm -f so_long
+	rm -f $(LIBFT_A)
 
 re : fclean all

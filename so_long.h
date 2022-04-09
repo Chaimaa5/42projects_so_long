@@ -19,10 +19,16 @@ typedef struct	s_data {
 	void	*mlx_win;
 }				t_data;
 
+typedef struct	s_point {
+	int	x;
+	int	y;
+}	t_point;
+char **g_map;
+
 char **read_map();
 int check_first_line(char *temp);
 int check_last_line(char *temp, int len);
-char	**check_map();
+char **check_map(int i);
 void	win(t_data *data);
 void	draw(t_data *data);
 void	put_background(t_data *data);
