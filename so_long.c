@@ -90,12 +90,17 @@ int	main(int ac, char **av)
 	
 	if (ac == 2)
 	{
-		i = open(av[1], O_RDONLY);
-		g_map = check_map(i);
-		if(g_map == NULL)
-			printf("map not valid");
-		data = malloc(sizeof(t_data));
-
-		win(data);
+		if (ft_strnstr(av[1], ".ber", ft_strlen(av[1])))
+		{
+			i = open(av[1], O_RDONLY); 
+			g_map = check_map(i);
+			if(!g_map)
+				printf("map not valid");
+			data = malloc(sizeof(t_data));
+			if (g_map)
+				win(data);
+		}
+		else 
+			printf("map file should have .ber extenssion");
 	}
 }

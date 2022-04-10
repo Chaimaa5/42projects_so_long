@@ -33,6 +33,7 @@ all : $(NAME)
 
 clean :
 	rm -f ${OBJ}
+	rm -f inc/libft/*.o
 fclean : clean
 	rm -f so_long
 	rm -f $(LIBFT_A)

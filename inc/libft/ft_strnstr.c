@@ -36,11 +36,3 @@ char	*ft_strnstr(const char	*haystack, const char	*needle, size_t	len)
 	}
 	return (NULL);
 }
-// int main()
-// {
-// 	printf("%s\n", ft_strnstr("GEEKSFORGEEKS", "FORGEEKS", 3));
-// 	printf("%s\n", ft_strnstr(-42));
-// 	printf("%s\n", ft_strnstr(-0));
-// 	printf("%s\n", ft_strnstr(0));
-// 	printf("%s\n", ft_strnstr();
-// }

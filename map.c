@@ -128,36 +128,35 @@
 // }
 int check_wall(char **map, int len)
 {
-    int i;
     int j;
-    //int x;
     int y;
+    int x;
 
     y = 0;
-    i = 0;
+    x = 0;
     j = len;
-    while(map[0][i] && map[0][i] == '1' )
-        i++;
-    while(map[len][y] == '1')
+    while (map[0][x] == '1' && map[0][x])
+        x++;
+    while (map[len][y] == '1' && map[len][y])
         y++;
-    while (map[len][0] == '1' && len > 0)
-        len--;
-    while (map[j][i - 1] == '1' && j > 0)
-        j--;
-    
-    if(i == (int)ft_strlen(map[0]) && i == y && j == len)
-        return (1);
-    return (0);
-    
-    
-    
-    
+    if(x == (int)ft_strlen(map[0]) || x == y)
+    {
+        while (map[j][0] == '1' && map[len][y - 1] == '1')
+        {
+            j--;
+            len--;
+            if (j == 0 && len == j)
+                return(1);
+        }
+    }
+    return (0); 
 }
+
 char **check_map(int i)
 {
     char    *map;
     char    *mapp;
-    char     **p;
+    char    **p;
     int     y;
 
     y = 0;
@@ -171,7 +170,7 @@ char **check_map(int i)
     }
     p = ft_split(mapp, '\n');
     free(mapp);
-    if(check_wall(p, y - 1))
+    if(check_wall(p , y - 1))
         return(p);
     return(NULL);
 }
