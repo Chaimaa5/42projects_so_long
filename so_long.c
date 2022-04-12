@@ -1,71 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/11 08:12:12 by cel-mhan          #+#    #+#             */
+/*   Updated: 2022/04/11 08:12:15 by cel-mhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void	xpm(t_data	*data)
+void	draw(t_data *data, int x, int y)
 {
-	int x;
-	int y;
-
-	data->img_zero = mlx_xpm_file_to_image(data->mlx, "./xpm/0.xpm", &x, &y);
-	data->img_one = mlx_xpm_file_to_image(data->mlx, "./xpm/1.xpm", &x, &y);
-	data->img_C = mlx_xpm_file_to_image(data->mlx, "./xpm/c.xpm", &x, &y);
-	data->img_P = mlx_xpm_file_to_image(data->mlx, "./xpm/p.xpm", &x, &y);
-}
-
-void	put_background(t_data *data)
-{
-	int		x;
-	int		y;
-	int		h;
-	int		w;
-
-	x = 0;
-	y = 0;
-	h = 0;
-	w = 0;
+	data->h = 0;
+	data->w = 0;
+	data->c = 0;
 	while(g_map[y])
 	{
 		x = 0;
-		h = 0;
-		while (g_map[y][x])
-		{
-			mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_zero, h, w);
-			x++;
-			h += 50;
-		}
-		y++;
-		w += 50;
-	}
-}
-
-void	draw(t_data *data)
-{
-	int		x;
-	int		y;
-	int		h;
-	int		w;
-	x = 0;
-	y = 0;
-	h = 0;
-	w = 0;
-	while(g_map[y])
-	{
-		x = 0;
-		h = 0;
+		data->h = 0;
 		while (g_map[y][x])
 		{
 			if (g_map[y][x] == 'C')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_C, h, w);
+				draw_collectables(data);
+			if (g_map[y][x] == 'E')
+				draw_exit(data, x, y);
 			if (g_map[y][x] == 'P')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_P, h, w);
+				draw_player(data, x, y);
 			if (g_map[y][x] == '1')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_one, h, w);
+				mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_one, data->h, data->w);
 			x++;
-			h += 50;
+			data->h += 50;
 		}
 		y++;
-		w += 50;
+		data->w += 50;
 	}
 }
+
+int	mouse(int mouse)
+{
+	if(mouse < 0)
+		exit (0);
+	return (0);
+}
+
 void	win(t_data *data)
 {
 	int i;
@@ -79,28 +59,43 @@ void	win(t_data *data)
 	data->mlx_win = mlx_new_window(data->mlx, i * 50, j * 50, "Hello mf!");
 	xpm(data);
 	put_background(data);
-	draw(data);
+	draw(data, 0, 0);
+	mlx_key_hook(data->mlx_win, keys, data);
+	mlx_hook(data->mlx_win, 17, 0L, mouse, data->mlx);
 	mlx_loop(data->mlx);
 } 
 
+int	file_check(char *av)
+{
+	int fd;
+
+	fd = open(av, O_RDONLY); 
+	if (fd == -1)
+	{
+		ft_putstr_fd("Error: file not found", 1);
+		exit (0);
+	}
+	return (fd);
+}
+
 int	main(int ac, char **av)
 {	
-	int i;
+	int fd;
 	t_data	*data;
 	
 	if (ac == 2)
 	{
 		if (ft_strnstr(av[1], ".ber", ft_strlen(av[1])))
 		{
-			i = open(av[1], O_RDONLY); 
-			g_map = check_map(i);
+			fd = file_check(av[1]);
+			g_map = check_map(fd);
 			if(!g_map)
-				printf("map not valid");
+				ft_putstr_fd("Error: map not valid", 1);
 			data = malloc(sizeof(t_data));
 			if (g_map)
 				win(data);
 		}
 		else 
-			printf("map file should have .ber extenssion");
+			ft_putstr_fd("Error: map file should have .ber extenssion", 1);
 	}
 }

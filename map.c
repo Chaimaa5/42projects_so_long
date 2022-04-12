@@ -1,131 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/11 08:11:36 by cel-mhan          #+#    #+#             */
+/*   Updated: 2022/04/11 08:11:43 by cel-mhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-// char **read_map()
-// {
-//     char    *tm;
-//     char    *p;
-//     char    **map;
-// 	int	fd;
-//     int i;
-//     int len;
+int check_elements(char **map, int i, int x, int p)
+{
+    int c;
+    int e;
 
-//     i = 0;
-//     p = ft_strdup("");
-// 	fd = open("map.ber", O_RDONLY);
-//     tm = get_next_line(fd);
-//     len = ft_strlen(tm);
-//     if (tm[len - 2] != '1' || tm[0] != '1')
-//         return (0);
-//     while(tm)
-// 	{
-//         p = ft_strjoin(p, tm);
-// 		tm = get_next_line(fd);
-//         if (tm && (tm[len - 2] != '1' || tm[0] != '1'))
-//             return (0);
-//         i++;
-// 	}
-//     if (check_first_line(p) && check_last_line(p, i))
-//     {
-//         map = ft_split(p, '\n');
-//         return (map);
-//     }
-//     return (0);
-// }
+    c = 0;
+    e = 0;
+    while (map[i])
+    {
+        x = 0;
+        while (map[i][x])
+        {                
+            if (map[i][x] == 'E')
+                e++;
+            if (map[i][x] == 'P')
+                p++;
+            if (map[i][x] == 'C')
+                c++;
+            x++;
+        }
+        i++;
+    }
+	if (p == 1 && c >= 1 && e == 1)
+        return (1);
+	return(0);
+}
 
-// int check_first_line(char *temp)
-// {
-//     int     i;
-//     char    **map;
-//     int     len;
+int check_len(char **map)
+{
+    int len;
+    int new_len;
+    int y;
 
-//     i = 0;
-//     map = ft_split(temp, '\n');
-//     len = ft_strlen(map[0]);
-//     while (i < len)
-//     {
-//         if (map[0][i] != '1')
-//             return (0);
-//         i++;
-//     }
-//     if (i == len )
-//         return (1);
-//     return (0);
-// }
-// int check_len(char  **map, int  len)
-// {
-//     int i;
-//     int j;
+    y = 1;
+    len = ft_strlen(map[0]);
+    while (map[y])
+    {
+        new_len = ft_strlen(map[y]);
+        if (new_len != len)
+            return (0);
+        y++;
+    }
+    return (1);
+}
 
-//     j = 0;
-//     i = 0;
-//     while (map[j])
-//         j++;
-//     i = j;
-//     while (map[j][0] == '1')
-//         j--;
-//     while (map[i][len] == '1')
-//         i--;
-//     if (i == 0 && j == 0)
-//         return (1);
-//     return (0);
-// }
-//  int check_last_line(char *temp, int len)
-// {
-//     int     i;
-//     char    **map;
-//     int     leng;
-
-//     i = 0;
-//     map = ft_split(temp, '\n');
-//     leng = ft_strlen(map[len - 1]);
-//     while (i < leng)
-//     {
-//         if (map[len - 1][i] != '1')
-//             return (0);
-//         i++;
-//     }
-//     if (i == leng && check_len(map, leng))
-//         return (1);
-//     return (0);
-// }
-
-
-
-// char	**check_map()
-// {
-// 	char	**map;
-//     int     i;
-//     int     x;
-//     int     p;
-//     int     c;
-
-//     x = 0;
-//     i = 0;
-//     c = 0;
-//     p = 0;
-// 	map = read_map();
-//     while (map[i])
-//     {
-//         x = 0;
-//         while (map[i][x])
-//         {                
-//             if (map[i][x] == 'E')
-//                 p++;
-//             if (map[i][x] == 'P')
-//                 p++;
-//             if (map[i][x] == 'C')
-//                 c++;
-//             x++;
-//         }
-//         i++;
-//     }
-// 	if (read_map() ==  NULL || p != 2 || c == 0)
-// 	{
-// 		printf("map not valid");
-// 		exit(1);
-// 	}
-// 	return(map);
-// }
 int check_wall(char **map, int len)
 {
     int j;
@@ -135,18 +66,21 @@ int check_wall(char **map, int len)
     y = 0;
     x = 0;
     j = len;
-    while (map[0][x] == '1' && map[0][x])
-        x++;
-    while (map[len][y] == '1' && map[len][y])
-        y++;
-    if(x == (int)ft_strlen(map[0]) || x == y)
+    if (check_len(map))
     {
-        while (map[j][0] == '1' && map[len][y - 1] == '1')
+        while (map[0][x] == '1' && map[0][x])
+            x++;
+        while (map[len][y] == '1' && map[len][y])
+            y++;
+        if(x == (int)ft_strlen(map[0]) || x == y)
         {
-            j--;
-            len--;
-            if (j == 0 && len == j)
-                return(1);
+            while (map[j][0] == '1' && map[len][y - 1] == '1')
+            {
+                j--;
+                len--;
+                if (j == 0 && len == j)
+                    return(1);
+            }
         }
     }
     return (0); 
@@ -170,7 +104,7 @@ char **check_map(int i)
     }
     p = ft_split(mapp, '\n');
     free(mapp);
-    if(check_wall(p , y - 1))
+    if(check_wall(p , y - 1) && check_elements(p, 0, 0, 0))
         return(p);
     return(NULL);
 }

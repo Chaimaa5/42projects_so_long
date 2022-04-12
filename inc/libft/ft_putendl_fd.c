@@ -26,9 +26,3 @@ void	ft_putendl_fd(char *s, int fd)
 	}
 	write(fd, "\n", 1);
 }
-// int main()
-// {
-// 	int fd;
-// 	fd = creat("fd.txt", 755);
-// 	ft_putendl_fd("It's working", fd);
-// }

@@ -13,7 +13,7 @@
 NAME = so_long
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = so_long.c map.c inc/gnl/get_next_line.c inc/gnl/get_next_line_utils.c 
+SRCS = so_long.c map.c inc/gnl/get_next_line.c inc/gnl/get_next_line_utils.c moves.c draw.c
 INC = -lmlx -framework OpenGL -framework AppKit
 
 LIBFT_A = libft.a
@@ -37,5 +37,5 @@ clean :
 fclean : clean
 	rm -f so_long
 	rm -f $(LIBFT_A)
-
+	rm -f inc/libft/libft.a 
 re : fclean all
