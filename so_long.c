@@ -17,7 +17,7 @@ void	draw(t_data *data, int x, int y)
 	data->h = 0;
 	data->w = 0;
 	data->c = 0;
-	while(g_map[y])
+	while (g_map[y])
 	{
 		x = 0;
 		data->h = 0;
@@ -30,7 +30,8 @@ void	draw(t_data *data, int x, int y)
 			if (g_map[y][x] == 'P')
 				draw_player(data, x, y);
 			if (g_map[y][x] == '1')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_one, data->h, data->w);
+				mlx_put_image_to_window(data->mlx, data->mlx_win,
+					data->img_one, data->h, data->w);
 			x++;
 			data->h += 50;
 		}
@@ -41,15 +42,15 @@ void	draw(t_data *data, int x, int y)
 
 int	mouse(int mouse)
 {
-	if(mouse < 0)
+	if (mouse < 0)
 		exit (0);
 	return (0);
 }
 
 void	win(t_data *data)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	i = ft_strlen(g_map[0]);
@@ -62,14 +63,15 @@ void	win(t_data *data)
 	draw(data, 0, 0);
 	mlx_key_hook(data->mlx_win, keys, data);
 	mlx_hook(data->mlx_win, 17, 0L, mouse, data->mlx);
+	system("Leaks so_long");
 	mlx_loop(data->mlx);
-} 
+}
 
 int	file_check(char *av)
 {
-	int fd;
+	int	fd;
 
-	fd = open(av, O_RDONLY); 
+	fd = open(av, O_RDONLY);
 	if (fd == -1)
 	{
 		ft_putstr_fd("Error: file not found", 1);
@@ -80,22 +82,22 @@ int	file_check(char *av)
 
 int	main(int ac, char **av)
 {	
-	int fd;
+	int		fd;
 	t_data	*data;
-	
+
 	if (ac == 2)
 	{
 		if (ft_strnstr(av[1], ".ber", ft_strlen(av[1])))
 		{
 			fd = file_check(av[1]);
 			g_map = check_map(fd);
-			if(!g_map)
+			if (!g_map)
 				ft_putstr_fd("Error: map not valid", 1);
 			data = malloc(sizeof(t_data));
 			if (g_map)
 				win(data);
 		}
-		else 
+		else
 			ft_putstr_fd("Error: map file should have .ber extenssion", 1);
 	}
 }
