@@ -42,8 +42,8 @@ void	draw(t_data *data, int x, int y)
 
 int	mouse(int mouse)
 {
-	if (mouse < 0)
-		exit (0);
+	(void)mouse;
+	exit (0);
 	return (0);
 }
 

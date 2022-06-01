@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 13:30:21 by cel-mhan          #+#    #+#             */
+/*   Updated: 2022/06/01 13:31:50 by cel-mhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int	keys(int key, t_data *data)
@@ -26,11 +38,11 @@ void	winner(void)
 void	eat(t_data *data)
 {
 	g_map[data->py][data->px] = 'P';
-	data->c--;	
+	data->c--;
 	if (data->c == 0)
 	{
 		mlx_put_image_to_window(data->mlx, data->mlx_win,
-			data->img_E_open, data->ex * 50, data->ey * 50);
+			data->img_e_open, data->ex * 50, data->ey * 50);
 		g_map[data->ey][data->ex] = 'C';
 	}
 }

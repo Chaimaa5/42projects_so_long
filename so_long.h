@@ -63,5 +63,7 @@ void	put_background(t_data *data);
 void	draw_exit(t_data *data, int x, int y);
 void	draw_player(t_data *data, int x, int y);
 void	draw_collectables(t_data *data);
+void	winner(void);
+void	eat(t_data *data);
 
 #endif

@@ -45,7 +45,7 @@ int	check_len(char **map)
 	int	new_len;
 	int	y;
 
-	y = 1;
+	y = 0;
 	len = ft_strlen(map[0]);
 	while (map[y])
 	{
@@ -70,11 +70,17 @@ int	check_wall(char **map, int len)
 	{
 		while (map[0][x] == '1' && map[0][x])
 			x++;
-		while (map[len][y] == '1' && map[len][y])
+		while (map[len - 1][y] == '1' && map[len - 1][y])
 			y++;
-		if (x == (int)ft_strlen(map[0]) || x == y)
+		if (len + 1 == x && len + 1 == y)
 		{
-			while (map[j][0] == '1' && map[len][y - 1] == '1')
+			write(1, "Error\n", 6);
+			exit (0);
+		}
+		if (x == (int)ft_strlen(map[0]) && x == y)
+		{			
+
+			while (map[j - 1][0] == '1' && map[len-1][y - 1] == '1')
 			{
 				j--;
 				len--;
@@ -83,6 +89,13 @@ int	check_wall(char **map, int len)
 			}
 		}
 	}
+	return (0);
+}
+
+int	check_newline(char **map)
+{
+	if (map[0][0] != '1')
+		return (1);
 	return (0);
 }
 
@@ -99,8 +112,8 @@ char	**check_map(int i)
 	while (map)
 	{
 		mapp = ft_strjoin(mapp, map);
-		map = get_next_line(i);
 		free(map);
+		map = get_next_line(i);
 		y++;
 	}
 	p = ft_split(mapp, '\n');
