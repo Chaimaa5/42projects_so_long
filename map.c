@@ -57,14 +57,19 @@ int	check_len(char **map)
 	return (1);
 }
 
-int	check_wall(char **map, int len)
+void	check_shape(int len, int x, int y)
+{
+	if (len == x - 1 && len == y - 1)
+	{
+		write(1, "Error\n", 6);
+		exit (0);
+	}
+}
+
+int	check_wall(char **map, int len, int x, int y)
 {
 	int	j;
-	int	y;
-	int	x;
 
-	y = 0;
-	x = 0;
 	j = len;
 	if (check_len(map))
 	{
@@ -72,15 +77,9 @@ int	check_wall(char **map, int len)
 			x++;
 		while (map[len][y] == '1' && map[len][y])
 			y++;
-		printf("%d\n", y);
-		if (len == x - 1 && len + 1 == y - 1)
-		{
-			write(1, "Error\n", 6);
-			exit (0);
-		}
+		check_shape(len, x, y);
 		if (x == (int)ft_strlen(map[0]) && x == y)
 		{			
-
 			while (map[j - 1][0] == '1' && map[len - 1][y - 1] == '1')
 			{
 				j--;
@@ -112,7 +111,7 @@ char	**check_map(int i)
 	}
 	p = ft_split(mapp, '\n');
 	free(mapp);
-	if (check_wall(p, y - 1) && check_elements(p, 0, 0, 0))
+	if (check_wall(p, y - 1, 0, 0) && check_elements(p, 0, 0, 0))
 		return (p);
 	return (NULL);
 }
