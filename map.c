@@ -70,9 +70,10 @@ int	check_wall(char **map, int len)
 	{
 		while (map[0][x] == '1' && map[0][x])
 			x++;
-		while (map[len - 1][y] == '1' && map[len - 1][y])
+		while (map[len][y] == '1' && map[len][y])
 			y++;
-		if (len + 1 == x && len + 1 == y)
+		printf("%d\n", y);
+		if (len == x - 1 && len + 1 == y - 1)
 		{
 			write(1, "Error\n", 6);
 			exit (0);
@@ -80,7 +81,7 @@ int	check_wall(char **map, int len)
 		if (x == (int)ft_strlen(map[0]) && x == y)
 		{			
 
-			while (map[j - 1][0] == '1' && map[len-1][y - 1] == '1')
+			while (map[j - 1][0] == '1' && map[len - 1][y - 1] == '1')
 			{
 				j--;
 				len--;
@@ -89,13 +90,6 @@ int	check_wall(char **map, int len)
 			}
 		}
 	}
-	return (0);
-}
-
-int	check_newline(char **map)
-{
-	if (map[0][0] != '1')
-		return (1);
 	return (0);
 }
 

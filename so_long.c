@@ -63,7 +63,6 @@ void	win(t_data *data)
 	draw(data, 0, 0);
 	mlx_key_hook(data->mlx_win, keys, data);
 	mlx_hook(data->mlx_win, 17, 0L, mouse, data->mlx);
-	system("Leaks so_long");
 	mlx_loop(data->mlx);
 }
 
@@ -100,4 +99,5 @@ int	main(int ac, char **av)
 		else
 			ft_putstr_fd("Error: map file should have .ber extenssion", 1);
 	}
+	return (0);
 }
